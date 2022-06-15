@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -39,7 +41,7 @@ namespace PixelSort.App.ViewModels
         public MainViewModel()
         {
             GenerateRandomPixelsCommand = new RelayCommand(GenerateRandomPixels, CanGenerateRandomPixels);
-            SortPixelsCommand = new RelayCommand(SortPixels, CanSortPixels);
+            SortPixelsCommand = new RelayCommand(async () => await SortPixels(), CanSortPixels);
         }
 
         #endregion
@@ -80,8 +82,11 @@ namespace PixelSort.App.ViewModels
         {
             return true;
         }
-        private void SortPixels()
+        private async Task SortPixels()
         {
+            // uncomment to simulate longer running operation
+            //await Task.Delay(5000);
+
             var bmp = ImageDataSource;
             Int32Rect r = new Int32Rect(0, 0, (int)bmp.Width, (int)bmp.Height);
             int [] pixels = new int[(int)bmp.Width * (int)bmp.Height];
