@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Border BorderThickness="1" Width="400" Height="300" BorderBrush="Black">
+            <Image x:Name="ImgImage" Stretch="Fill"  HorizontalAlignment="Left" Height="300" Margin="0" VerticalAlignment="Top" Width="400" />
+        </Border>
+        <Button Content="Random pixels" HorizontalAlignment="Left" Margin="679,63,0,0" VerticalAlignment="Top" />
+        <Button Content="Sort pixels" HorizontalAlignment="Left" Margin="679,107,0,0" VerticalAlignment="Top" />
     </Grid>
 </Window>
