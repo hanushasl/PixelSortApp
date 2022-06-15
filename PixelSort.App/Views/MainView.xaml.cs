@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PixelSort.App.ViewModels;
 
 namespace PixelSort.App.Views
 {
@@ -23,6 +24,9 @@ namespace PixelSort.App.Views
         public MainView()
         {
             InitializeComponent();
+
+            MainViewModel mainVM = new MainViewModel();
+            DataContext = mainVM;
         }
     }
 }
