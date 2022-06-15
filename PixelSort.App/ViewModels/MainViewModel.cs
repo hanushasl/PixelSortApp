@@ -39,11 +39,16 @@ namespace PixelSort.App.ViewModels
         public MainViewModel()
         {
             GenerateRandomPixelsCommand = new RelayCommand(GenerateRandomPixels, CanGenerateRandomPixels);
+            SortPixelsCommand = new RelayCommand(SortPixels, CanSortPixels);
         }
+
         #endregion
 
         #region Commands
+
         public ICommand GenerateRandomPixelsCommand { get; }
+
+        public ICommand SortPixelsCommand { get; }
         #endregion
 
         #region Command Actions
@@ -69,6 +74,23 @@ namespace PixelSort.App.ViewModels
             }
             bmp.WritePixels(new Int32Rect(0, 0, w, h), data, bmp.BackBufferStride, 0);
             ImageDataSource = bmp;
+        }
+        
+        private bool CanSortPixels(object obj)
+        {
+            return true;
+        }
+        private void SortPixels()
+        {
+            var bmp = ImageDataSource;
+            Int32Rect r = new Int32Rect(0, 0, (int)bmp.Width, (int)bmp.Height);
+            int [] pixels = new int[(int)bmp.Width * (int)bmp.Height];
+            bmp.CopyPixels(r, pixels, bmp.BackBufferStride, 0);
+            for (int row = 0; row < r.Height; ++row)
+            {
+                Array.Sort(pixels, row * bmp.BackBufferStride / 4, bmp.BackBufferStride / 4);
+            }
+            bmp.WritePixels(r, pixels, bmp.BackBufferStride, 0);
         }
         #endregion
 

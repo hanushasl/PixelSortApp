@@ -12,6 +12,6 @@
             <Image x:Name="ImgImage" Source="{Binding ImageDataSource}" Stretch="Fill"  HorizontalAlignment="Left" Height="300" Margin="0" VerticalAlignment="Top" Width="400" />
         </Border>
         <Button Content="Random pixels" HorizontalAlignment="Left" Margin="679,63,0,0" VerticalAlignment="Top" Command="{Binding GenerateRandomPixelsCommand}" />
-        <Button Content="Sort pixels" HorizontalAlignment="Left" Margin="679,107,0,0" VerticalAlignment="Top" />
+        <Button Content="Sort pixels" HorizontalAlignment="Left" Margin="679,107,0,0" VerticalAlignment="Top" Command="{Binding SortPixelsCommand}" />
     </Grid>
 </Window>
