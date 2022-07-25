@@ -1,13 +1,13 @@
-﻿using System;
+﻿using PixelSort.App.Commands;
+using PixelSort.App.ViewModels.Base;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using PixelSort.App.Commands;
-using PixelSort.App.ViewModels.Base;
 
 namespace PixelSort.App.ViewModels
 {
@@ -62,8 +62,8 @@ namespace PixelSort.App.ViewModels
 
         private void GenerateRandomPixels()
         {
-            int w = null != ImageDataSource ? (int)ImageDataSource.Width : 400;
-            int h = null != ImageDataSource ? (int)ImageDataSource.Height : 300;
+            int w = null != ImageDataSource ? ImageDataSource.PixelWidth : 400;
+            int h = null != ImageDataSource ? ImageDataSource.PixelHeight : 300;
             var rnd = new Random();
             var bmp = new WriteableBitmap(w, h, 96, 96, PixelFormats.Bgr32, null);
             var data = Enumerable.Range(0, w * h).ToArray();
@@ -88,14 +88,16 @@ namespace PixelSort.App.ViewModels
             //await Task.Delay(5000);
 
             var bmp = ImageDataSource;
-            Int32Rect r = new Int32Rect(0, 0, (int)bmp.Width, (int)bmp.Height);
-            int [] pixels = new int[(int)bmp.Width * (int)bmp.Height];
+            Int32Rect r = new Int32Rect(0, 0, bmp.PixelWidth, bmp.PixelHeight);
+            int [] pixels = new int[bmp.PixelWidth * bmp.PixelHeight];
             bmp.CopyPixels(r, pixels, bmp.BackBufferStride, 0);
+            List<int> resultList = new List<int>();
             for (int row = 0; row < r.Height; ++row)
             {
-                Array.Sort(pixels, row * bmp.BackBufferStride / 4, bmp.BackBufferStride / 4);
+                List<int> pixelsRow = new ArraySegment<int>(pixels, row * bmp.PixelWidth, bmp.PixelWidth).ToList();
+                resultList.AddRange(pixelsRow.OrderBy(x => System.Drawing.Color.FromArgb(x).GetHue()));
             }
-            bmp.WritePixels(r, pixels, bmp.BackBufferStride, 0);
+            bmp.WritePixels(r, resultList.ToArray(), bmp.BackBufferStride, 0);
         }
         #endregion
 
